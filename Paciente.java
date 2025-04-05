@@ -13,6 +13,22 @@ class Paciente implements Comparable<Paciente> {
         this.currentDateTime = currentDateTime;
     }
 
+    public String getNombreDelPaciente() {
+        return nombreDelPaciente;
+    }
+    
+    public String getDescripcionDelSintoma() {
+        return descripcionDelSintoma;
+    }
+    
+    public String getCodigoDeEmergencia() {
+        return codigoDeEmergencia;
+    }
+    
+    public LocalDateTime getCurrentDateTime() {
+        return currentDateTime;
+    }
+
     @Override
     public int compareTo(Paciente paciente2) {
         if (this.codigoDeEmergencia.equals(paciente2.codigoDeEmergencia)) {
