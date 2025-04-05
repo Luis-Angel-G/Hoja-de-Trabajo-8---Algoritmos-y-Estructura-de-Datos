@@ -68,9 +68,4 @@ public class VectorHeap<E extends Comparable<E>> extends PriorityQueue<E> {
         }
         return "Paciente con más prioridad: " + pacientes.get(1).toString();
     }
-
-    @Override
-    public java.util.Iterator<E> iterator() {
-        return pacientes.stream().skip(1).iterator();
-    }
 }

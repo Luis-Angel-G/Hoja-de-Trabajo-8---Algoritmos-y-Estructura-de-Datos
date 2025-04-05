@@ -50,11 +50,12 @@ public class SistemaDeAtencion {
                 archivo.createNewFile();
             }
             StringBuilder contenido = new StringBuilder();
-            for (Paciente paciente : pacientes) {
+            for (int i = 1; i < pacientes.pacientes.size(); i++) {
+                Paciente paciente = pacientes.pacientes.get(i);
                 contenido.append(paciente.getNombreDelPaciente()).append(",")
-                        .append(paciente.getDescripcionDelSintoma()).append(",")
-                        .append(paciente.getCodigoDeEmergencia()).append(",")
-                        .append(paciente.getCurrentDateTime().format(formatter)).append("\n");
+                         .append(paciente.getDescripcionDelSintoma()).append(",")
+                         .append(paciente.getCodigoDeEmergencia()).append(",")
+                         .append(paciente.getCurrentDateTime().format(formatter)).append("\n");
             }
             java.nio.file.Files.writeString(archivo.toPath(), contenido.toString());
         } catch (IOException e) {
