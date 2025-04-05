@@ -71,6 +71,6 @@ public class VectorHeap<E extends Comparable<E>> extends PriorityQueue<E> {
 
     @Override
     public java.util.Iterator<E> iterator() {
-    return pacientes.stream().skip(1).iterator();
-}
+        return pacientes.stream().skip(1).iterator();
+    }
 }
