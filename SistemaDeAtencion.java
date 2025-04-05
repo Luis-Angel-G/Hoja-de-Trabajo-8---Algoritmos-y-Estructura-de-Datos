@@ -20,7 +20,7 @@ public class SistemaDeAtencion {
                 String linea;
                 while ((linea = br.readLine()) != null) {
                     try {
-                        String[] datosDeFicha = linea.split("\\|");
+                        String[] datosDeFicha = linea.split(",");
                         if (datosDeFicha.length != 4) {
                             System.out.println("Línea con formato incorrecto: " + linea);
                             continue;
@@ -51,9 +51,9 @@ public class SistemaDeAtencion {
             }
             StringBuilder contenido = new StringBuilder();
             for (Paciente paciente : pacientes) {
-                contenido.append(paciente.getNombreDelPaciente()).append("|")
-                        .append(paciente.getDescripcionDelSintoma()).append("|")
-                        .append(paciente.getCodigoDeEmergencia()).append("|")
+                contenido.append(paciente.getNombreDelPaciente()).append(",")
+                        .append(paciente.getDescripcionDelSintoma()).append(",")
+                        .append(paciente.getCodigoDeEmergencia()).append(",")
                         .append(paciente.getCurrentDateTime().format(formatter)).append("\n");
             }
             java.nio.file.Files.writeString(archivo.toPath(), contenido.toString());
@@ -72,7 +72,7 @@ public class SistemaDeAtencion {
             while (continuar) {
                 System.out.println("Bienvenido al sistema de atención de pacientes. Seleccione una opción:");
                 System.out.println("1. Agregar nuevo paciente");
-                System.out.println("2. Eliminar paciente con más prioridad");
+                System.out.println("2. Atender paciente con más prioridad");
                 System.out.println("3. Ver siguiente paciente a atender");
                 System.out.println("4. Salir");
 
