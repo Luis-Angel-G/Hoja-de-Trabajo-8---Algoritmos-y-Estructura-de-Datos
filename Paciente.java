@@ -1,6 +1,6 @@
 import java.time.LocalDateTime;
 
-class Paciente implements Comparable<Paciente> {
+public class Paciente implements Comparable<Paciente> {
     private final String nombreDelPaciente;
     private final String descripcionDelSintoma;
     private final String codigoDeEmergencia;
