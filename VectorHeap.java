@@ -68,4 +68,19 @@ public class VectorHeap<E extends Comparable<E>> extends PriorityQueue<E> {
         }
         return "Paciente con más prioridad: " + pacientes.get(1).toString();
     }
+
+    @Override
+    public boolean add(E nuevoPaciente) {
+        return agregar(nuevoPaciente) != null;
+    }
+
+    @Override
+    public E remove() {
+        return (E) eliminarPacienteConMasPrioridad();
+    }
+
+    @Override
+    public E peek() {
+        return (E) verPacienteConMasPrioridad();
+    }
 }
