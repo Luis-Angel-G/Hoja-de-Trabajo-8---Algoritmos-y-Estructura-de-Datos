@@ -1,8 +1,8 @@
 import java.util.ArrayList;
 import java.util.PriorityQueue;
 
-public class VectorHeap<E extends Comparable<E>> extends PriorityQueue<E> {
-    protected ArrayList<E> pacientes;
+public class VectorHeap<T extends Comparable<T>> extends PriorityQueue<T> {
+    protected ArrayList<T> pacientes;
 
     public VectorHeap() {
         pacientes = new ArrayList<>();
@@ -21,11 +21,11 @@ public class VectorHeap<E extends Comparable<E>> extends PriorityQueue<E> {
         return 2 * i + 1;
     }
 
-    public String agregar(E nuevoPaciente) {
+    public String agregar(T nuevoPaciente) {
         pacientes.add(nuevoPaciente);
         int posicion = pacientes.size() - 1;
         while (posicion > 1 && pacientes.get(posicion).compareTo(pacientes.get(padre(posicion))) < 0) {
-            E pacienteConMasPrioridad = pacientes.get(posicion);
+            T pacienteConMasPrioridad = pacientes.get(posicion);
             pacientes.set(posicion, pacientes.get(padre(posicion)));
             pacientes.set(padre(posicion), pacienteConMasPrioridad);
             posicion = padre(posicion);
@@ -33,11 +33,11 @@ public class VectorHeap<E extends Comparable<E>> extends PriorityQueue<E> {
         return "Paciente agregado: " + nuevoPaciente.toString();
     }
 
-    public String eliminarPacienteConMasPrioridad() {
+    public T eliminarPacienteConMasPrioridad() {
         if (pacientes.size() <= 1) {
             return null;
         }
-        E pacienteEliminado = pacientes.get(1);
+        T pacienteEliminado = pacientes.get(1);
         pacientes.set(1, pacientes.get(pacientes.size() - 1));
         pacientes.remove(pacientes.size() - 1);
         int posicion = 1;
@@ -51,7 +51,7 @@ public class VectorHeap<E extends Comparable<E>> extends PriorityQueue<E> {
             }
 
             if (pacientes.get(posicion).compareTo(pacientes.get(hijoMenor)) > 0) {
-                E pacienteConMenosPrioridad = pacientes.get(posicion);
+                T pacienteConMenosPrioridad = pacientes.get(posicion);
                 pacientes.set(posicion, pacientes.get(hijoMenor));
                 pacientes.set(hijoMenor, pacienteConMenosPrioridad);
                 posicion = hijoMenor;
@@ -59,28 +59,34 @@ public class VectorHeap<E extends Comparable<E>> extends PriorityQueue<E> {
                 break;
             }
         }
-        return "Paciente eliminado: " + pacienteEliminado.toString();
+        return pacienteEliminado;
     }
 
-    public String verPacienteConMasPrioridad() {
+    public T verPacienteConMasPrioridad() {
         if (pacientes.size() <= 1) {
             return null;
         }
-        return "Paciente con más prioridad: " + pacientes.get(1).toString();
+        return pacientes.get(1);
     }
 
     @Override
-    public boolean add(E nuevoPaciente) {
+    public boolean add(T nuevoPaciente) {
         return agregar(nuevoPaciente) != null;
     }
 
     @Override
-    public E remove() {
-        return (E) eliminarPacienteConMasPrioridad();
+    public T remove() {
+        return eliminarPacienteConMasPrioridad();
     }
 
     @Override
-    public E peek() {
-        return (E) verPacienteConMasPrioridad();
+    public T peek() {
+        return verPacienteConMasPrioridad();
+    }
+
+    public ArrayList<T> obtenerPacientes() {
+        ArrayList<T> copiaPacientes = new ArrayList<>(pacientes);
+        copiaPacientes.remove(0);
+        return copiaPacientes;
     }
 }
