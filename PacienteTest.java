@@ -2,10 +2,16 @@ import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;
 import java.time.LocalDateTime;
 
-// Filepath: PacienteTest.java
-
+/**
+ * Clase de pruebas unitarias para la clase {@link Paciente}.
+ * Verifica el correcto funcionamiento de los métodos y comportamientos de la clase.
+ */
 public class PacienteTest {
 
+    /**
+     * Prueba el constructor y los métodos getter de la clase {@link Paciente}.
+     * Verifica que los valores iniciales se asignen correctamente.
+     */
     @Test
     public void testConstructorAndGetters() {
         LocalDateTime now = LocalDateTime.now();
@@ -17,6 +23,11 @@ public class PacienteTest {
         assertEquals(now, paciente.getCurrentDateTime(), "Fecha y hora de registro incorrecta.");
     }
 
+    /**
+     * Prueba el método {@link Paciente#compareTo(Paciente)} para comparar pacientes
+     * por el código de emergencia.
+     * Verifica que los pacientes con códigos de emergencia más altos tengan menor prioridad.
+     */
     @Test
     public void testCompareToByCodigoDeEmergencia() {
         LocalDateTime now = LocalDateTime.now();
@@ -27,6 +38,11 @@ public class PacienteTest {
         assertTrue(paciente2.compareTo(paciente1) > 0, "Paciente2 debería tener menor prioridad que Paciente1.");
     }
 
+    /**
+     * Prueba el método {@link Paciente#compareTo(Paciente)} para comparar pacientes
+     * con el mismo código de emergencia pero diferentes fechas/hora de registro.
+     * Verifica que los pacientes registrados antes tengan mayor prioridad.
+     */
     @Test
     public void testCompareToByCurrentDateTime() {
         LocalDateTime earlier = LocalDateTime.now().minusHours(1);
@@ -38,6 +54,10 @@ public class PacienteTest {
         assertTrue(paciente2.compareTo(paciente1) > 0, "Paciente2 debería tener menor prioridad por fecha/hora.");
     }
 
+    /**
+     * Prueba el método {@link Paciente#toString()}.
+     * Verifica que la representación en cadena del paciente sea correcta.
+     */
     @Test
     public void testToString() {
         LocalDateTime now = LocalDateTime.now();

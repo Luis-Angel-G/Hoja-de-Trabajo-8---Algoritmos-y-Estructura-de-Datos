@@ -2,16 +2,26 @@ import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;
 import java.util.ArrayList;
 
-// Filepath: VectorHeapTest.java
-
+/**
+ * Clase de pruebas unitarias para la clase {@link VectorHeap}.
+ * Verifica el correcto funcionamiento de las operaciones de un heap mínimo.
+ */
 public class VectorHeapTest {
 
+    /**
+     * Prueba la inicialización de un {@link VectorHeap}.
+     * Verifica que el heap se inicialice vacío.
+     */
     @Test
     public void testHeapInitialization() {
         VectorHeap<Integer> heap = new VectorHeap<>();
         assertTrue(heap.obtenerPacientes().isEmpty(), "Heap should initialize as empty.");
     }
 
+    /**
+     * Prueba el método {@link VectorHeap#add(Object)}.
+     * Verifica que los elementos se agreguen correctamente y que se mantenga la propiedad de heap mínimo.
+     */
     @Test
     public void testAddElements() {
         VectorHeap<Integer> heap = new VectorHeap<>();
@@ -29,6 +39,10 @@ public class VectorHeapTest {
         assertEquals(expectedOrder, heap.obtenerPacientes(), "Heap should maintain min-heap property after adding elements.");
     }
 
+    /**
+     * Prueba el método {@link VectorHeap#remove()}.
+     * Verifica que los elementos se eliminen en el orden correcto (de menor a mayor).
+     */
     @Test
     public void testRemoveElements() {
         VectorHeap<Integer> heap = new VectorHeap<>();
@@ -44,6 +58,10 @@ public class VectorHeapTest {
         assertNull(heap.remove(), "Removing from an empty heap should return null.");
     }
 
+    /**
+     * Prueba el método {@link VectorHeap#peek()}.
+     * Verifica que el método devuelva el elemento más pequeño sin eliminarlo.
+     */
     @Test
     public void testPeek() {
         VectorHeap<Integer> heap = new VectorHeap<>();
@@ -56,6 +74,10 @@ public class VectorHeapTest {
         assertEquals(1, heap.peek(), "Peek should not modify the heap.");
     }
 
+    /**
+     * Prueba las operaciones {@link VectorHeap#peek()} y {@link VectorHeap#remove()} en un heap vacío.
+     * Verifica que ambos métodos devuelvan {@code null}.
+     */
     @Test
     public void testEmptyHeap() {
         VectorHeap<Integer> heap = new VectorHeap<>();
