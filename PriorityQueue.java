@@ -1,3 +1,5 @@
+import java.util.Queue;
+
 /**
  * Implementación de una cola de prioridad genérica que gestiona elementos
  * en base a su prioridad. Utiliza una instancia de {@code PriorityQueue} para
@@ -9,7 +11,7 @@ public class PriorityQueue<E> {
     /**
      * Cola de prioridad que almacena objetos de tipo {@code Paciente}.
      */
-    PriorityQueue<Paciente> pacientes = new PriorityQueue<>();
+    Queue<E> pacientes = new java.util.PriorityQueue<>();
 
     /**
      * Agrega un nuevo paciente a la cola de prioridad.
@@ -17,7 +19,7 @@ public class PriorityQueue<E> {
      * @param nuevoPaciente El paciente a agregar.
      * @return {@code true} si el paciente fue agregado correctamente.
      */
-    public boolean add(Paciente nuevoPaciente) {
+    public boolean add(E nuevoPaciente) {
         return pacientes.add(nuevoPaciente);
     }
 
@@ -26,7 +28,7 @@ public class PriorityQueue<E> {
      *
      * @return El paciente con mayor prioridad, o {@code null} si la cola está vacía.
      */
-    public Paciente remove() {
+    public E remove() {
         return pacientes.remove();
     }
 
@@ -35,7 +37,7 @@ public class PriorityQueue<E> {
      *
      * @return El paciente con mayor prioridad, o {@code null} si la cola está vacía.
      */
-    public Paciente peek() {
+    public E peek() {
         return pacientes.peek();
     }
 }
