@@ -26,7 +26,7 @@ public class PriorityQueue<E> {
     /**
      * Elimina y devuelve el paciente con mayor prioridad (el menor) de la cola.
      *
-     * @return El paciente con mayor prioridad, o {@code null} si la cola está vacía.
+     * @return El paciente con mayor prioridad, o excepcion si la cola está vacía.
      */
     public E remove() {
         return pacientes.remove();
