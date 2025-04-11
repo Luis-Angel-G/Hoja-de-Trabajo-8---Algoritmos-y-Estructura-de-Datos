@@ -4,10 +4,15 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
+import java.util.Queue;
 import java.util.Scanner;
 
 public class SistemaDeAtencion {
-    private final VectorHeap<Paciente> pacientes = new VectorHeap<>();
+    private final Queue<Paciente> pacientes;
+
+    public SistemaDeAtencion(String cola) {
+        this.pacientes = QueueFactory.getQueue(cola);
+    }
     public void cargarFichaDePacientes() {
         File archivo = new File("pacientes.txt");
         DateTimeFormatter formatter = DateTimeFormatter.ISO_LOCAL_DATE_TIME;
@@ -30,7 +35,7 @@ public class SistemaDeAtencion {
                         String codigoDeEmergencia = datosDeFicha[2].trim();
                         LocalDateTime currentDateTime = LocalDateTime.parse(datosDeFicha[3].trim(), formatter);
                         Paciente paciente = new Paciente(nombreDelPaciente, descripcionDelSintoma, codigoDeEmergencia, currentDateTime);
-                        pacientes.agregar(paciente);
+                        pacientes.add(paciente);
                     } catch (Exception e) {
                         System.out.println("Error al procesar la línea: " + linea + ". Detalle: " + e.getMessage());
                     }
@@ -50,13 +55,24 @@ public class SistemaDeAtencion {
                 archivo.createNewFile();
             }
             StringBuilder contenido = new StringBuilder();
-            for (int i = 1; i < pacientes.pacientes.size(); i++) {
-                Paciente paciente = pacientes.pacientes.get(i);
-                contenido.append(paciente.getNombreDelPaciente()).append(",")
-                         .append(paciente.getDescripcionDelSintoma()).append(",")
-                         .append(paciente.getCodigoDeEmergencia()).append(",")
-                         .append(paciente.getCurrentDateTime().format(formatter)).append("\n");
+    
+            if (pacientes instanceof VectorHeap) {
+                VectorHeap<Paciente> vectorHeap = (VectorHeap<Paciente>) pacientes;
+                for (Paciente paciente : vectorHeap.obtenerPacientes()) {
+                    contenido.append(paciente.getNombreDelPaciente()).append(",")
+                             .append(paciente.getDescripcionDelSintoma()).append(",")
+                             .append(paciente.getCodigoDeEmergencia()).append(",")
+                             .append(paciente.getCurrentDateTime().format(formatter)).append("\n");
+                }
+            } else {
+                for (Paciente paciente : pacientes) {
+                    contenido.append(paciente.getNombreDelPaciente()).append(",")
+                             .append(paciente.getDescripcionDelSintoma()).append(",")
+                             .append(paciente.getCodigoDeEmergencia()).append(",")
+                             .append(paciente.getCurrentDateTime().format(formatter)).append("\n");
+                }
             }
+    
             java.nio.file.Files.writeString(archivo.toPath(), contenido.toString());
         } catch (IOException e) {
             System.out.println("Error al guardar el archivo: " + e.getMessage());
@@ -64,9 +80,19 @@ public class SistemaDeAtencion {
     }
 
     public static void main(String[] args) {
-        SistemaDeAtencion sistema = new SistemaDeAtencion();
-        sistema.cargarFichaDePacientes();
         try (Scanner scanner = new Scanner(System.in)) {
+            System.out.println("Ingrese el número de cola a usar:");
+            System.out.println("1. PriorityQueue");
+            System.out.println("2. VectorHeap");
+            int col = scanner.nextInt();
+            scanner.nextLine();
+            if (col < 1 || col > 2) {
+                System.out.println("Opción no válida. Saliendo del programa.");
+                return;
+            }
+            String cola = col == 1 ? "priorityqueue" : "vectorheap";
+            SistemaDeAtencion sistema = new SistemaDeAtencion(cola);
+            sistema.cargarFichaDePacientes();
             boolean continuar = true;
             int opcion;
 
@@ -104,14 +130,14 @@ public class SistemaDeAtencion {
                             }
                             LocalDateTime currentDateTime = LocalDateTime.now();
                             Paciente nuevoPaciente = new Paciente(nombreDelPaciente, descripcionDelSintoma, codigoDeEmergencia, currentDateTime);
-                            System.out.println(sistema.pacientes.agregar(nuevoPaciente));
+                            System.out.println(sistema.pacientes.add(nuevoPaciente));
                         } catch (Exception e) {
                             System.out.println("Error al agregar el paciente: " + e.getMessage());
                         }
                         sistema.guardarFichasDePacientes();
                     }
                     case 2 -> {
-                        String pacienteEliminado = sistema.pacientes.eliminarPacienteConMasPrioridad();
+                        Paciente pacienteEliminado = sistema.pacientes.remove();
                         if (pacienteEliminado != null) {
                             System.out.println("Paciente eliminado: " + pacienteEliminado);
                         } else {
@@ -120,7 +146,7 @@ public class SistemaDeAtencion {
                         sistema.guardarFichasDePacientes();
                     }
                     case 3 -> {
-                        String pacienteConMasPrioridad = sistema.pacientes.verPacienteConMasPrioridad();
+                        Paciente pacienteConMasPrioridad = sistema.pacientes.peek();
                         if (pacienteConMasPrioridad != null) {
                             System.out.println(pacienteConMasPrioridad);
                         } else {
