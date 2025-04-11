@@ -7,12 +7,27 @@ import java.time.format.DateTimeFormatter;
 import java.util.Queue;
 import java.util.Scanner;
 
+/**
+ * Clase principal que gestiona el sistema de atención de pacientes.
+ * Permite cargar, guardar y gestionar pacientes en una cola de prioridad.
+ */
 public class SistemaDeAtencion {
     private final Queue<Paciente> pacientes;
 
+    /**
+     * Constructor que inicializa el sistema con una cola de prioridad específica.
+     *
+     * @param cola El tipo de cola a utilizar: "priorityqueue" o "vectorheap".
+     */
     public SistemaDeAtencion(String cola) {
         this.pacientes = QueueFactory.getQueue(cola);
     }
+
+    /**
+     * Carga las fichas de pacientes desde un archivo llamado "pacientes.txt".
+     * Si el archivo no existe, lo crea vacío.
+     * Los datos deben estar en el formato: nombre, descripción, código de emergencia, fecha/hora.
+     */
     public void cargarFichaDePacientes() {
         File archivo = new File("pacientes.txt");
         DateTimeFormatter formatter = DateTimeFormatter.ISO_LOCAL_DATE_TIME;
@@ -46,6 +61,10 @@ public class SistemaDeAtencion {
         }
     }
 
+    /**
+     * Guarda las fichas de pacientes en un archivo llamado "pacientes.txt".
+     * Los datos se guardan en el formato: nombre, descripción, código de emergencia, fecha/hora.
+     */
     public void guardarFichasDePacientes() {
         File archivo = new File("pacientes.txt");
         DateTimeFormatter formatter = DateTimeFormatter.ISO_LOCAL_DATE_TIME;
@@ -79,6 +98,12 @@ public class SistemaDeAtencion {
         }
     }
 
+    /**
+     * Método principal que ejecuta el sistema de atención de pacientes.
+     * Permite al usuario interactuar con el sistema mediante un menú.
+     *
+     * @param args Argumentos de línea de comandos (no utilizados).
+     */
     public static void main(String[] args) {
         try (Scanner scanner = new Scanner(System.in)) {
             System.out.println("Ingrese el número de cola a usar:");
